@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday 🎂</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+overflow:hidden;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#ff6ec7,#ffc371,#7afcff);
+background-size:300% 300%;
+animation:bgMove 10s infinite alternate;
+}
+
+@keyframes bgMove{
+0%{background-position:left;}
+100%{background-position:right;}
+}
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+}
+
+.card{
+position:relative;
+z-index:2;
+background:rgba(255,255,255,.15);
+backdrop-filter:blur(12px);
+padding:30px;
+border-radius:25px;
+text-align:center;
+color:white;
+width:90%;
+max-width:420px;
+box-shadow:0 0 30px rgba(255,255,255,.3);
+animation:pop 1s ease;
+}
+
+@keyframes pop{
+0%{
+transform:scale(.5);
+opacity:0;
+}
+100%{
+transform:scale(1);
+opacity:1;
+}
+}
+
+h1{
+font-size:2.2rem;
+margin-bottom:10px;
+animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+from{
+text-shadow:0 0 10px #fff;
+}
+to{
+text-shadow:0 0 25px gold,0 0 40px hotpink;
+}
+}
+
+.name{
+font-size:2rem;
+font-weight:bold;
+color:#fff;
+margin:15px 0;
+}
+
+.message{
+font-size:1rem;
+line-height:1.7;
+margin-top:10px;
+}
+
+.cake{
+font-size:70px;
+animation:bounce 1.5s infinite;
+}
+
+@keyframes bounce{
+0%,100%{
+transform:translateY(0);
+}
+50%{
+transform:translateY(-15px);
+}
+}
+
+.balloon{
+position:absolute;
+font-size:40px;
+animation:float 6s infinite ease-in-out;
+}
+
+.b1{left:-20px;top:20px;}
+.b2{right:-20px;top:80px;animation-delay:2s;}
+.b3{left:20px;bottom:-20px;animation-delay:1s;}
+.b4{right:20px;bottom:-20px;animation-delay:3s;}
+
+@keyframes float{
+0%{transform:translateY(0);}
+50%{transform:translateY(-20px);}
+100%{transform:translateY(0);}
+}
+
+button{
+margin-top:20px;
+padding:12px 24px;
+font-size:16px;
+border:none;
+border-radius:30px;
+background:white;
+color:#ff4b7d;
+font-weight:bold;
+cursor:pointer;
+transition:.3s;
+}
+
+button:hover{
+transform:scale(1.08);
+}
+
+#surprise{
+margin-top:20px;
+font-size:1.2rem;
+display:none;
+animation:pop .6s;
+}
+
+@media(max-width:500px){
+
+h1{
+font-size:1.8rem;
+}
+
+.name{
+font-size:1.6rem;
+}
+
+.message{
+font-size:.95rem;
+}
+
+.cake{
+font-size:60px;
+}
+
+}
+</style>
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div class="card">
+
+<div class="balloon b1">🎈</div>
+<div class="balloon b2">🎈</div>
+<div class="balloon b3">🎉</div>
+<div class="balloon b4">🎊</div>
+
+<div class="cake">🎂</div>
+
+<h1>Happy Birthday!</h1>
+
+<div class="LUNA">luna❤️</div>
+
+<div class="Message">
+May your day be filled with happiness,
+love, laughter, and unforgettable memories.
+Wishing you endless success and joy! ✨
+</div>
+
+<button onclick="showWish()">Open Your Surprise 🎁</button>
+
+<div id="surprise">
+💖 You are amazing! May all your dreams come true! 🎉🥳
+</div>
+
+</div>
+
+<script>
+// Surprise
+function showWish(){
+document.getElementById("surprise").style.display="block";
+}
+
+// Confetti
+const canvas=document.getElementById("confetti");
+const ctx=canvas.getContext("2d");
+
+function resize(){
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+}
+resize();
+window.onresize=resize;
+
+const colors=[
+"#ff0",
+"#f00",
+"#0ff",
+"#0f0",
+"#ff69b4",
+"#00f",
+"#ffa500",
+"#fff"
+];
+
+let confetti=[];
+
+for(let i=0;i<250;i++){
+confetti.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height-canvas.height,
+r:Math.random()*6+2,
+d:Math.random()*250,
+color:colors[Math.floor(Math.random()*colors.length)],
+tilt:Math.random()*10-10,
+speed:Math.random()*3+2
+});
+}
+
+function draw(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+confetti.forEach(c=>{
+
+ctx.beginPath();
+ctx.fillStyle=c.color;
+ctx.fillRect(c.x,c.y,c.r,c.r*2);
+
+c.y+=c.speed;
+c.x+=Math.sin(c.d)*0.5;
+c.d+=0.02;
+
+if(c.y>canvas.height){
+c.y=-20;
+c.x=Math.random()*canvas.width;
+}
+
+});
+
+requestAnimationFrame(draw);
+
+}
+
+draw();
+</script>
+
+</body>
+</html>
